@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Fundo Preto -->
+  <rect width="100" height="100" fill="#000000"/>
+  <!-- Texto Verde Terminal -->
+  <text x="10" y="70" font-family="monospace" font-size="60" fill="#22c55e" font-weight="bold">&gt;_</text>
+</svg>
