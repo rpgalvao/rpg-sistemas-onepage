@@ -28,7 +28,7 @@ export default function Home() {
 	// --- COMANDOS QUE SERÃO DIGITADOS ---
 	const cmd1 = "./start_here.sh";
 	const cmd2 = "ls -la /servicos";
-	const cmd3 = "./request_quote.sh";
+	const cmd3 = "./fale_conosco.sh";
 
 	// --- MEMÓRIAS DE TEXTO PARA CADA COMANDO ---
 	const [text1, setText1] = useState("");
@@ -185,7 +185,7 @@ export default function Home() {
 										key={index}
 										className="flex flex-col md:flex-row md:items-center gap-2 hover:bg-green-900/30 p-2 rounded transition-colors duration-300"
 									>
-										<span className="font-bold text-green-400 w-24 flex-shrink-0">
+										<span className="font-bold text-green-400 w-24 shrink-0">
 											&lt;@rpg /&gt;
 										</span>
 										<span className="font-semibold text-lg">
