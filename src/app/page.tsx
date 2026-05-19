@@ -20,18 +20,44 @@ export default function Home() {
 		},
 	];
 
-	// O nosso novo projeto em destaque (CRM em Laravel)
-	const featuredProject = {
-		name: "RPG_CRM_SYSTEM",
-		framework: "Laravel 11 / PHP 8.3",
-		database: "PostgreSQL",
-		status: "PRODUCTION_READY",
-		modules: [
-			"Gestão de Clientes",
-			"Controle de Ordens de Serviço (G.O.S)",
-			"Faturamento Automatizado",
-		],
-	};
+	// A sua nova galeria de Projetos detalhada
+	const featuredProjects = [
+		{
+			name: "RPG_CRM_PROSPECT",
+			role: "Sales & Leads Tracking",
+			stack: "Laravel 13 / PHP",
+			description:
+				"Sistema focado em CRM, acompanhamento de leads, gestão de negócios e novas prospecções.",
+			highlights: [
+				"Arquitetura MVC robusta",
+				"Gestão completa do funil de vendas e negociações",
+			],
+		},
+		{
+			name: "RPG_G.O.S_SYSTEM",
+			role: "Fullstack OS Management",
+			stack: "Node.js (TS) + React",
+			description:
+				"Controle completo de Ordens de Serviço com arquitetura em camadas (Controllers, Services, Repositories).",
+			highlights: [
+				"[BACK] Express, Prisma ORM, PostgreSQL, Docker, JWT",
+				"[BACK] Zod (Schema Validation), Multer & Sharp (Imagens)",
+				"[FRONT] React, TypeScript, Tailwind CSS, React Router, Lucide",
+			],
+		},
+		{
+			name: "RPG_EVENT_LEADS",
+			role: "Captura & Dossiê em Eventos",
+			stack: "Node.js (TS) + React (Vite)",
+			description:
+				"Aplicação Mobile First (Dark Mode & Glassmorphism) para captura tática de leads em eventos presenciais.",
+			highlights: [
+				"[BACK] Prisma, PostgreSQL, Docker, Swagger (OpenAPI), JWT (RBAC)",
+				"[FRONT] Dossiê de leads com fotos, controle de status rápido",
+				"[FRONT] React (Vite), Tailwind CSS, Axios, Lucide React",
+			],
+		},
+	];
 
 	// --- COMANDOS QUE SERÃO DIGITADOS EM SEQUÊNCIA ---
 	const cmd1 = "./start_here.sh";
@@ -46,8 +72,6 @@ export default function Home() {
 	const [text4, setText4] = useState("");
 
 	// --- A MÁQUINA DE ESTADOS (O Roteiro Sequencial) ---
-	// 0: Digitando cmd1 | 1: Mostra logo, aguarda | 2: Digitando cmd2 | 3: Mostra serviços, aguarda
-	// 4: Digitando cmd3 | 5: Mostra projetos, aguarda | 6: Digitando cmd4 | 7: Mostra formulário final
 	const [stage, setStage] = useState(0);
 
 	// Estados do formulário
@@ -73,37 +97,37 @@ export default function Home() {
 			setStage(0);
 			await sleep(800);
 
-			// 1. Digita o Comando 1 (Boot)
+			// 1. Comando 1 (Boot)
 			for (let i = 1; i <= cmd1.length; i++) {
 				setText1(cmd1.slice(0, i));
-				await sleep(70);
+				await sleep(60);
 			}
 			setStage(1);
-			await sleep(1800); // Pausa para leitura da logo
+			await sleep(1500);
 
-			// 2. Digita o Comando 2 (Serviços)
+			// 2. Comando 2 (Serviços)
 			setStage(2);
 			for (let i = 1; i <= cmd2.length; i++) {
 				setText2(cmd2.slice(0, i));
-				await sleep(70);
+				await sleep(60);
 			}
 			setStage(3);
-			await sleep(1800); // Pausa para leitura dos serviços
+			await sleep(1500);
 
-			// 3. NOVO: Digita o Comando 3 (Projetos/CRM)
+			// 3. Comando 3 (Projetos)
 			setStage(4);
 			for (let i = 1; i <= cmd3.length; i++) {
 				setText3(cmd3.slice(0, i));
-				await sleep(70);
+				await sleep(60);
 			}
 			setStage(5);
-			await sleep(2200); // Pausa um pouco maior porque tem mais texto no projeto
+			await sleep(2500); // Pausa maior para leitura dos 3 projetos
 
-			// 4. Digita o Comando 4 (Contato)
+			// 4. Comando 4 (Contato)
 			setStage(6);
 			for (let i = 1; i <= cmd4.length; i++) {
 				setText4(cmd4.slice(0, i));
-				await sleep(70);
+				await sleep(60);
 			}
 			setStage(7);
 		};
@@ -141,7 +165,7 @@ export default function Home() {
 
 	return (
 		<main className="min-h-screen bg-black text-green-500 font-mono p-8 md:p-16 flex flex-col pt-20">
-			<div className="max-w-3xl mx-auto w-full">
+			<div className="max-w-4xl mx-auto w-full">
 				{/* BLOCO 1: BOOT & LOGO */}
 				<div className="mb-12">
 					<div className="mb-6 text-lg">
@@ -165,8 +189,8 @@ export default function Home() {
 								</h2>
 							</div>
 							<p className="text-green-800 opacity-80 mt-8 text-sm">
-								[SYSTEM_READY] // Desenvolvendo fronteiras
-								digitais...
+								[SYSTEM_READY] // Engenharia de Software e
+								Infraestrutura...
 							</p>
 						</div>
 					)}
@@ -211,7 +235,7 @@ export default function Home() {
 					</div>
 				)}
 
-				{/* BLOCO 3: NOVO - DETALHAMENTO DE PROJETOS (CRM) */}
+				{/* BLOCO 3: PROJETOS DETALHADOS */}
 				{stage >= 3 && (
 					<div className="mb-12">
 						<div className="mb-6 text-lg">
@@ -225,45 +249,55 @@ export default function Home() {
 						</div>
 
 						{stage >= 5 && (
-							<div className="border border-green-900/60 bg-green-950/10 p-6 rounded">
-								<div className="flex justify-between items-center mb-4 border-b border-green-900/40 pb-2">
-									<span className="text-xl font-bold text-green-400">
-										🚀 {featuredProject.name}
-									</span>
-									<span className="text-xs bg-green-900/40 text-green-300 px-2 py-0.5 rounded animate-pulse">
-										{featuredProject.status}
-									</span>
-								</div>
+							<div className="space-y-6">
+								{featuredProjects.map((proj, idx) => (
+									<div
+										key={idx}
+										className="border border-green-900/60 bg-green-950/10 p-5 rounded hover:border-green-500/50 transition-colors duration-300"
+									>
+										<div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 border-b border-green-900/40 pb-3 gap-2">
+											<span className="text-xl font-bold text-green-400">
+												📦 {proj.name}
+											</span>
+											<span className="text-xs bg-green-900/40 text-green-300 px-3 py-1 rounded w-fit">
+												{proj.role}
+											</span>
+										</div>
 
-								<div className="space-y-2 text-sm">
-									<p>
-										<span className="text-green-700">
-											| Core Stack :
-										</span>{" "}
-										{featuredProject.framework}
-									</p>
-									<p>
-										<span className="text-green-700">
-											| Database :
-										</span>{" "}
-										{featuredProject.database}
-									</p>
-									<div>
-										<span className="text-green-700">
-											| Modules Active:
-										</span>
-										<ul className="list-disc list-inside ml-4 mt-1 text-green-400/90 space-y-1">
-											{featuredProject.modules.map(
-												(mod, i) => (
-													<li key={i}>{mod}</li>
-												),
-											)}
-										</ul>
+										<div className="space-y-2 text-sm">
+											<p>
+												<span className="text-green-700">
+													| Core Stack :
+												</span>{" "}
+												{proj.stack}
+											</p>
+											<p>
+												<span className="text-green-700">
+													| Info :
+												</span>{" "}
+												<span className="text-green-500/90">
+													{proj.description}
+												</span>
+											</p>
+											<div className="pt-2">
+												<span className="text-green-700">
+													| Technical Highlights:
+												</span>
+												<ul className="list-disc list-inside ml-4 mt-1 text-green-400/80 space-y-1 font-semibold">
+													{proj.highlights.map(
+														(mod, i) => (
+															<li key={i}>
+																{mod}
+															</li>
+														),
+													)}
+												</ul>
+											</div>
+										</div>
 									</div>
-								</div>
+								))}
 								<p className="text-xs text-green-800 mt-4">
-									// Enterprise-grade architecture initialized
-									successfully.
+									// Projects matrix loaded successfully.
 								</p>
 							</div>
 						)}
