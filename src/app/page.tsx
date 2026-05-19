@@ -4,40 +4,50 @@ import { useState, useEffect } from "react";
 export default function Home() {
 	const services = [
 		{
-			name: "MVP Development",
-			tech: "(Node/Next.js)",
-			desc: "Desenvolvimento ágil para validação de ideias.",
-		},
-		{
 			name: "API Engineering",
-			tech: "(TypeScript)",
-			desc: "Arquitetura sólida aplicando DDD e SOLID.",
-		},
-		{
-			name: "G.O.S. Systems",
-			tech: "(Integração)",
-			desc: "Gestão completa de Ordens de Serviço.",
+			tech: "(Node/TypeScript)",
+			desc: "Arquitetura sólida aplicando DDD e princípios SOLID.",
 		},
 		{
 			name: "Cloud & Infra",
 			tech: "(Docker/Render)",
-			desc: "Containers e deploy automatizado.",
+			desc: "Containers, deploy automatizado e alta disponibilidade.",
+		},
+		{
+			name: "MVP Development",
+			tech: "(Fullstack)",
+			desc: "Desenvolvimento ágil para validação rápida de ideias.",
 		},
 	];
 
-	// --- COMANDOS QUE SERÃO DIGITADOS ---
+	// O nosso novo projeto em destaque (CRM em Laravel)
+	const featuredProject = {
+		name: "RPG_CRM_SYSTEM",
+		framework: "Laravel 11 / PHP 8.3",
+		database: "PostgreSQL",
+		status: "PRODUCTION_READY",
+		modules: [
+			"Gestão de Clientes",
+			"Controle de Ordens de Serviço (G.O.S)",
+			"Faturamento Automatizado",
+		],
+	};
+
+	// --- COMANDOS QUE SERÃO DIGITADOS EM SEQUÊNCIA ---
 	const cmd1 = "./start_here.sh";
 	const cmd2 = "ls -la /servicos";
-	const cmd3 = "./fale_conosco.sh";
+	const cmd3 = "./ver_projetos.sh";
+	const cmd4 = "./request_quote.sh";
 
-	// --- MEMÓRIAS DE TEXTO PARA CADA COMANDO ---
+	// --- MEMÓRIAS DE TEXTO PARA CADA PROMPT ---
 	const [text1, setText1] = useState("");
 	const [text2, setText2] = useState("");
 	const [text3, setText3] = useState("");
+	const [text4, setText4] = useState("");
 
-	// --- A MÁQUINA DE ESTADOS (O Roteiro) ---
-	// 0: Digitando cmd1 | 1: Mostra logo, aguarda | 2: Digitando cmd2
-	// 3: Mostra serviços, aguarda | 4: Digitando cmd3 | 5: Mostra form
+	// --- A MÁQUINA DE ESTADOS (O Roteiro Sequencial) ---
+	// 0: Digitando cmd1 | 1: Mostra logo, aguarda | 2: Digitando cmd2 | 3: Mostra serviços, aguarda
+	// 4: Digitando cmd3 | 5: Mostra projetos, aguarda | 6: Digitando cmd4 | 7: Mostra formulário final
 	const [stage, setStage] = useState(0);
 
 	// Estados do formulário
@@ -52,45 +62,50 @@ export default function Home() {
 	);
 
 	useEffect(() => {
-		// A nossa função mágica que pausa a execução por "X" milissegundos
 		const sleep = (ms: number) =>
 			new Promise((resolve) => setTimeout(resolve, ms));
 
 		const runSequence = async () => {
-			// Garante que tudo começa vazio
 			setText1("");
 			setText2("");
 			setText3("");
+			setText4("");
 			setStage(0);
+			await sleep(800);
 
-			await sleep(1000); // 1. Pausa inicial da tela preta
-
-			// 2. Digita o Comando 1
+			// 1. Digita o Comando 1 (Boot)
 			for (let i = 1; i <= cmd1.length; i++) {
 				setText1(cmd1.slice(0, i));
-				await sleep(90);
+				await sleep(70);
 			}
-			setStage(1); // 3. Libera a Logo e o próximo prompt
+			setStage(1);
+			await sleep(1800); // Pausa para leitura da logo
 
-			await sleep(2000); // 4. Pausa dramática de 2 segundos lendo a tela
-
-			// 5. Digita o Comando 2
+			// 2. Digita o Comando 2 (Serviços)
 			setStage(2);
 			for (let i = 1; i <= cmd2.length; i++) {
 				setText2(cmd2.slice(0, i));
-				await sleep(90);
+				await sleep(70);
 			}
-			setStage(3); // 6. Libera os Serviços e o próximo prompt
+			setStage(3);
+			await sleep(1800); // Pausa para leitura dos serviços
 
-			await sleep(2000); // 7. Pausa dramática de 2 segundos lendo os serviços
-
-			// 8. Digita o Comando 3
+			// 3. NOVO: Digita o Comando 3 (Projetos/CRM)
 			setStage(4);
 			for (let i = 1; i <= cmd3.length; i++) {
 				setText3(cmd3.slice(0, i));
-				await sleep(90);
+				await sleep(70);
 			}
-			setStage(5); // 9. Libera o Formulário e o Rodapé
+			setStage(5);
+			await sleep(2200); // Pausa um pouco maior porque tem mais texto no projeto
+
+			// 4. Digita o Comando 4 (Contato)
+			setStage(6);
+			for (let i = 1; i <= cmd4.length; i++) {
+				setText4(cmd4.slice(0, i));
+				await sleep(70);
+			}
+			setStage(7);
 		};
 
 		runSequence();
@@ -127,29 +142,25 @@ export default function Home() {
 	return (
 		<main className="min-h-screen bg-black text-green-500 font-mono p-8 md:p-16 flex flex-col pt-20">
 			<div className="max-w-3xl mx-auto w-full">
-				{/* ========================================== */}
 				{/* BLOCO 1: BOOT & LOGO */}
 				<div className="mb-12">
-					{/* O Prompt do Comando 1 */}
 					<div className="mb-6 text-lg">
 						<span className="text-green-700">
 							root@rpg-sistemas:~$
 						</span>
 						<span className="ml-2 text-green-400">{text1}</span>
-						{/* O cursor pisca aqui apenas enquanto não passamos para o próximo estágio */}
 						{stage === 0 && (
 							<span className="animate-pulse ml-1">_</span>
 						)}
 					</div>
 
-					{/* A Saída do Comando 1 */}
 					{stage >= 1 && (
 						<div>
 							<div className="mt-4 mb-12">
 								<h1 className="text-5xl md:text-7xl font-bold tracking-widest mb-4 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]">
 									@rpg Sistemas
 								</h1>
-								<h2 className="text-5xl md:text-7xl font-bold">
+								<h2 className="text-5xl md:text-7xl font-bold text-green-400">
 									&lt;@rpg /&gt;
 								</h2>
 							</div>
@@ -161,41 +172,37 @@ export default function Home() {
 					)}
 				</div>
 
-				{/* ========================================== */}
 				{/* BLOCO 2: SERVIÇOS */}
 				{stage >= 1 && (
 					<div className="mb-12">
-						{/* O Prompt do Comando 2 */}
 						<div className="mb-6 text-lg">
 							<span className="text-green-700">
 								root@rpg-sistemas:~$
 							</span>
 							<span className="ml-2 text-green-400">{text2}</span>
-							{/* O cursor pisca aqui enquanto aguarda (1) ou digita (2) */}
 							{(stage === 1 || stage === 2) && (
 								<span className="animate-pulse ml-1">_</span>
 							)}
 						</div>
 
-						{/* A Saída do Comando 2 */}
 						{stage >= 3 && (
 							<ul className="space-y-4">
 								{services.map((service, index) => (
 									<li
 										key={index}
-										className="flex flex-col md:flex-row md:items-center gap-2 hover:bg-green-900/30 p-2 rounded transition-colors duration-300"
+										className="flex flex-col md:flex-row md:items-center gap-2 hover:bg-green-900/20 p-2 rounded transition-colors duration-300"
 									>
-										<span className="font-bold text-green-400 w-24 shrink-0">
-											&lt;@rpg /&gt;
+										<span className="font-bold text-green-700 w-24 flex-shrink-0">
+											⚙️ [SVC]
 										</span>
-										<span className="font-semibold text-lg">
+										<span className="font-semibold text-lg text-green-300">
 											{service.name}
 										</span>
-										<span className="text-green-700">
+										<span className="text-green-600">
 											{service.tech}
 										</span>
-										<span className="text-green-600/60 text-sm hidden md:block">
-											--&gt; {service.desc}
+										<span className="text-green-700 text-sm hidden md:block">
+											— {service.desc}
 										</span>
 									</li>
 								))}
@@ -204,24 +211,79 @@ export default function Home() {
 					</div>
 				)}
 
-				{/* ========================================== */}
-				{/* BLOCO 3: CONTATO & RODAPÉ */}
+				{/* BLOCO 3: NOVO - DETALHAMENTO DE PROJETOS (CRM) */}
 				{stage >= 3 && (
-					<div>
-						{/* O Prompt do Comando 3 */}
+					<div className="mb-12">
 						<div className="mb-6 text-lg">
 							<span className="text-green-700">
 								root@rpg-sistemas:~$
 							</span>
 							<span className="ml-2 text-green-400">{text3}</span>
-							{/* O cursor pisca aqui enquanto aguarda (3) ou digita (4) */}
 							{(stage === 3 || stage === 4) && (
 								<span className="animate-pulse ml-1">_</span>
 							)}
 						</div>
 
-						{/* A Saída do Comando 3 (O Formulário) */}
 						{stage >= 5 && (
+							<div className="border border-green-900/60 bg-green-950/10 p-6 rounded">
+								<div className="flex justify-between items-center mb-4 border-b border-green-900/40 pb-2">
+									<span className="text-xl font-bold text-green-400">
+										🚀 {featuredProject.name}
+									</span>
+									<span className="text-xs bg-green-900/40 text-green-300 px-2 py-0.5 rounded animate-pulse">
+										{featuredProject.status}
+									</span>
+								</div>
+
+								<div className="space-y-2 text-sm">
+									<p>
+										<span className="text-green-700">
+											| Core Stack :
+										</span>{" "}
+										{featuredProject.framework}
+									</p>
+									<p>
+										<span className="text-green-700">
+											| Database :
+										</span>{" "}
+										{featuredProject.database}
+									</p>
+									<div>
+										<span className="text-green-700">
+											| Modules Active:
+										</span>
+										<ul className="list-disc list-inside ml-4 mt-1 text-green-400/90 space-y-1">
+											{featuredProject.modules.map(
+												(mod, i) => (
+													<li key={i}>{mod}</li>
+												),
+											)}
+										</ul>
+									</div>
+								</div>
+								<p className="text-xs text-green-800 mt-4">
+									// Enterprise-grade architecture initialized
+									successfully.
+								</p>
+							</div>
+						)}
+					</div>
+				)}
+
+				{/* BLOCO 4: CONTATO & RODAPÉ */}
+				{stage >= 5 && (
+					<div>
+						<div className="mb-6 text-lg">
+							<span className="text-green-700">
+								root@rpg-sistemas:~$
+							</span>
+							<span className="ml-2 text-green-400">{text4}</span>
+							{(stage === 5 || stage === 6) && (
+								<span className="animate-pulse ml-1">_</span>
+							)}
+						</div>
+
+						{stage >= 7 && (
 							<div>
 								<form className="space-y-4 max-w-lg">
 									<div className="flex items-center">
@@ -305,7 +367,6 @@ export default function Home() {
 									)}
 								</form>
 
-								{/* RODAPÉ E PROMPT FINAL */}
 								<div className="mt-24 pt-8 border-t border-green-900/40 text-sm flex flex-col items-center opacity-60">
 									<p className="text-green-700">
 										Connection to @rpg-sistemas closed.
