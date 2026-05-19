@@ -63,7 +63,7 @@ export default function Home() {
 	const cmd1 = "./start_here.sh";
 	const cmd2 = "ls -la /servicos";
 	const cmd3 = "./ver_projetos.sh";
-	const cmd4 = "./request_quote.sh";
+	const cmd4 = "./fale_conosco.sh";
 
 	// --- MEMÓRIAS DE TEXTO PARA CADA PROMPT ---
 	const [text1, setText1] = useState("");
@@ -100,25 +100,25 @@ export default function Home() {
 			// 1. Comando 1 (Boot)
 			for (let i = 1; i <= cmd1.length; i++) {
 				setText1(cmd1.slice(0, i));
-				await sleep(60);
+				await sleep(120);
 			}
 			setStage(1);
-			await sleep(1500);
+			await sleep(2000);
 
 			// 2. Comando 2 (Serviços)
 			setStage(2);
 			for (let i = 1; i <= cmd2.length; i++) {
 				setText2(cmd2.slice(0, i));
-				await sleep(60);
+				await sleep(120);
 			}
 			setStage(3);
-			await sleep(1500);
+			await sleep(2000);
 
 			// 3. Comando 3 (Projetos)
 			setStage(4);
 			for (let i = 1; i <= cmd3.length; i++) {
 				setText3(cmd3.slice(0, i));
-				await sleep(60);
+				await sleep(120);
 			}
 			setStage(5);
 			await sleep(2500); // Pausa maior para leitura dos 3 projetos
@@ -127,7 +127,7 @@ export default function Home() {
 			setStage(6);
 			for (let i = 1; i <= cmd4.length; i++) {
 				setText4(cmd4.slice(0, i));
-				await sleep(60);
+				await sleep(120);
 			}
 			setStage(7);
 		};
